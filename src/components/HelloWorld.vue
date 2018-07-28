@@ -4,11 +4,17 @@
       <div class="search-content">
         <input type="text" placeholder="请输入搜索内容" v-model="list">
         <div class="content" ref="listContent">
-          <ul @click="show()">
-            <li class="content-list" v-for="(item, index) in searchData" :key="index">{{item.name}}--{{item.url}}</li>
+          <ul>
+            <li class="content-list" v-for="(item, index) in searchData" :key="index" @click="addMember(item.name)">{{item.name}}--{{item.url}}</li>
           </ul>
         </div>
       </div>
+      <button class="add-member">add</button>
+    </div>
+    <div class="add-display">
+      <ul>
+        <li v-for="(item, index) in member" :key="index">{{item}}</li>
+      </ul>
     </div>
   </div>
 </template>
@@ -21,12 +27,18 @@ export default {
   data () {
     return {
       listArr: [],
-      list:''
+      list:'',
+      member: []
     }
   },
   methods: {
-    show () {
-      console.log('111')
+    // show () {
+    //   console.log('111')
+    // },
+    addMember (index) {
+      if (this.member.indexOf(index) < 0) {
+        this.member.push(index)
+      }
     },
     _initScroll () {
       this.listScroll = new BScroll(this.$refs.listContent, {
@@ -110,6 +122,36 @@ input{
   padding-left:20px;
   color: orange;
   margin: 10px 0;
-
+  cursor: pointer;
+}
+.add-member{
+  width: 100px;
+  height: 40px;
+  background: gold;
+  color: #fff;
+  outline: none;
+  border-radius: 25px;
+  margin: auto;
+  margin-left: 240px;
+  cursor: pointer;
+}
+.add-display{
+  width: 500px;
+  height: 200px;
+  border: 1px solid gray;
+  border-radius: 10px;
+  margin: 10px auto;
+}
+.add-display li {
+  float: left;
+  width: 80px;
+  line-height: 30px;
+  font-size: 14px;
+  background: #333;
+  color: #fff;
+  border-radius: 5px;
+  text-align: center;
+  margin: 20px;
+  cursor: pointer;
 }
 </style>

@@ -9,12 +9,12 @@
           </ul>
         </div>
       </div>
-      <button class="add-member">add</button>
     </div>
     <div class="add-display">
       <ul>
-        <li v-for="(item, index) in member" :key="index">{{item}}</li>
+        <li v-for="(item, index) in member" :key="index">{{item}}<span class="cls" @click="deletes(index)">X</span></li>
       </ul>
+      <button class="add-member">add</button>
     </div>
   </div>
 </template>
@@ -28,16 +28,23 @@ export default {
     return {
       listArr: [],
       list:'',
-      member: []
+      member: [],
+      addMembersList: []
     }
   },
   methods: {
     // show () {
     //   console.log('111')
     // },
+    deletes (index) {
+      console.log(index)
+      // this.member.remove(index)
+      this.member.splice(index,1)
+    },
     addMember (index) {
       if (this.member.indexOf(index) < 0) {
         this.member.push(index)
+        console.log(this.addMembersList)
       }
     },
     _initScroll () {
@@ -125,14 +132,15 @@ input{
   cursor: pointer;
 }
 .add-member{
+  position: absolute;
+  bottom: 0;
+  left: 200px;
   width: 100px;
   height: 40px;
   background: gold;
   color: #fff;
   outline: none;
   border-radius: 25px;
-  margin: auto;
-  margin-left: 240px;
   cursor: pointer;
 }
 .add-display{
@@ -141,8 +149,10 @@ input{
   border: 1px solid gray;
   border-radius: 10px;
   margin: 10px auto;
+  position: relative;
 }
 .add-display li {
+  position: relative;
   float: left;
   width: 80px;
   line-height: 30px;
@@ -153,5 +163,17 @@ input{
   text-align: center;
   margin: 20px;
   cursor: pointer;
+}
+.cls{
+  display: inline-block;
+  width: 25px;
+  position: absolute;
+  font-size: 16px;
+  right: -5px;
+  top: -7px;
+  color: #333;
+}
+.cls:hover{
+  color: #fff;
 }
 </style>

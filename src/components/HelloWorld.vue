@@ -5,16 +5,21 @@
         <input type="text" placeholder="请输入搜索内容" v-model="list">
         <div class="content" ref="listContent">
           <ul>
-            <li class="content-list" v-for="(item, index) in searchData" :key="index" @click="addMember(item.name)">{{item.name}}--{{item.url}}</li>
+            <li class="content-list" v-for="(item, index) in searchData" :key="index" @click="addMember(index, item.name, item.url)">{{item.name}}--{{item.url}}</li>
           </ul>
         </div>
       </div>
     </div>
     <div class="add-display">
       <ul>
-        <li v-for="(item, index) in member" :key="index">{{item}}<span class="cls" @click="deletes(index)">X</span></li>
+        <li v-for="(item, index) in member" :key="index">{{item.name}}<span class="cls" @click="deletes(index)">X</span></li>
       </ul>
-      <button class="add-member">add</button>
+      <button class="add-member" @click="lastmember()">add</button>
+    </div>
+    <div class="right-content">
+      <ul>
+        <li v-for="(item, index) in members" :key="index" class="lastshow">{{item.name}}-{{item.url}}</li>
+      </ul>
     </div>
   </div>
 </template>
@@ -29,7 +34,7 @@ export default {
       listArr: [],
       list:'',
       member: [],
-      addMembersList: []
+      members: []
     }
   },
   methods: {
@@ -37,15 +42,27 @@ export default {
     //   console.log('111')
     // },
     deletes (index) {
-      console.log(index)
+      // console.log(index)
       // this.member.remove(index)
       this.member.splice(index,1)
     },
-    addMember (index) {
-      if (this.member.indexOf(index) < 0) {
-        this.member.push(index)
-        console.log(this.addMembersList)
-      }
+    lastmember () {
+      this.members = this.member
+    },
+    addMember (index, name, url) {
+      console.log(this.member)
+      // if (this.member.indexOf(index) < 0) {}
+      // if (JSON.stringify(this.member)){}
+      console.log(JSON.stringify(this.member))
+      var obj = {
+        name: name,
+        url: url
+        }
+        if (JSON.stringify(this.member).indexOf(JSON.stringify(obj)) === -1) {
+          this.member.push(obj)
+        }
+        // console.log(this.member)
+
     },
     _initScroll () {
       this.listScroll = new BScroll(this.$refs.listContent, {
@@ -95,6 +112,11 @@ export default {
 </script>
 
 <style scoped>
+.hello{
+position: relative;
+width: 100%;
+height: 100%;
+}
 .search-member{
   overflow: hidden;
   max-width: 600px;
@@ -175,5 +197,17 @@ input{
 }
 .cls:hover{
   color: #fff;
+}
+.right-content{
+  position: absolute;
+  right: 0;
+  top: 100px;
+  width: 200px;
+  height: 400px;
+  background: gray;
+  color: #fff;
+  line-height: 40px;
+  text-indent: 10px;
+  font-size: 10px;
 }
 </style>
